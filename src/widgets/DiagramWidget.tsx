@@ -26,6 +26,7 @@ export interface DiagramProps extends BaseWidgetProps {
 	inverseZoom?: boolean;
 	maxNumberPointsPerLink?: number;
 	smartRouting?: boolean;
+	supressDeleteAction?: boolean;
 
 	actionStartedFiring?: (action: BaseAction) => boolean;
 	actionStillFiring?: (action: BaseAction) => void;
@@ -55,7 +56,8 @@ export class DiagramWidget extends BaseWidget<DiagramProps, DiagramState> {
 		inverseZoom: false,
 		maxNumberPointsPerLink: Infinity, // backwards compatible default
 		smartRouting: false,
-		deleteKeys: [46, 8]
+		supressDeleteAction: false,
+		deleteKeys: [46, 8],
 	};
 
 	onKeyUpPointer: (this: Window, ev: KeyboardEvent) => void = null;
@@ -299,7 +301,7 @@ export class DiagramWidget extends BaseWidget<DiagramProps, DiagramState> {
 
 	onKeyUp(event) {
 		//delete all selected
-		if (this.props.deleteKeys.indexOf(event.keyCode) !== -1) {
+		if (!this.props.supressDeleteAction && this.props.deleteKeys.indexOf(event.keyCode) !== -1) {
 			_.forEach(this.props.diagramEngine.getDiagramModel().getSelectedItems(), element => {
 				//only delete items which are not locked
 				if (!this.props.diagramEngine.isModelLocked(element)) {
