@@ -1,7 +1,7 @@
 import { BaseModel, BaseModelListener } from "./BaseModel";
 import { BaseEntity } from "../BaseEntity";
 
-export interface SelectionModel {
+export class SelectionModel {
 	model: BaseModel<BaseEntity, BaseModelListener>;
 	initialX: number;
 	initialY: number;
